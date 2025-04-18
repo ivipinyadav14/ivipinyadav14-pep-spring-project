@@ -35,4 +35,15 @@ public class MessageService {
         return messageRepository.findByPostedBy(accountId);
     }
 
+    public boolean updateMessageText(Integer messageId, String newText) {
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if (optionalMessage.isPresent()) {
+            Message message = optionalMessage.get();
+            message.setMessageText(newText);
+            messageRepository.save(message);
+            return true;
+        }
+        return false;
+    }
+
 }
