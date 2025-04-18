@@ -68,7 +68,7 @@ public class SocialMediaController {
     //creation of new messages
     @PostMapping("/messages")
     public Object createMessage(@RequestBody Message message) {
-        if (message.getMessageText().isBlank() || message.getMessageText().length() > 255) {
+        if (message.getMessageText().isBlank() || message.getMessageText().length() > 255 || !accountService.findById(message.getPostedBy()).isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -95,10 +95,11 @@ public class SocialMediaController {
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<Object> deleteMessage(@PathVariable Integer messageId) {
         boolean deleted = messageService.deleteMessageById(messageId);
-        if(deleted)
+        if (deleted) {
             return ResponseEntity.ok(1);
-        else
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            return ResponseEntity.ok().build();
+        }
     }
 
 

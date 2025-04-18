@@ -25,4 +25,8 @@ public class AccountService {
         return accountRepository.findByUsername(username)
                 .filter(a -> a.getPassword().equals(password));
     }
+
+    public Optional<Account> findById(Integer id) {
+        return accountRepository.findById(id);
+    }
 }

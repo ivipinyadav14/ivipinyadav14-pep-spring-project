@@ -26,9 +26,11 @@ public class MessageService {
     }
 
     public boolean deleteMessageById(Integer messageId) {
-        messageRepository.deleteById(messageId);
-
-        return true;
+        if (messageRepository.existsById(messageId)) {
+            messageRepository.deleteById(messageId);
+            return true;
+        } 
+        return false;
     }
 
     public List<Message> getMessagesByAccountId(Integer accountId) {
